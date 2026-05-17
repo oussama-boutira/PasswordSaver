@@ -44,7 +44,7 @@ function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
+    <div className="min-h-screen bg-transparent text-foreground selection:bg-primary/30">
       {!masterPassword || !vaultData ? (
         <AuthScreen onUnlock={handleUnlock} />
       ) : (

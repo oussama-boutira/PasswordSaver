@@ -49,30 +49,33 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onUnlock }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="glass w-full max-w-md p-8 rounded-2xl">
-        <div className="flex justify-center mb-6">
+    <div className="min-h-screen flex items-center justify-center p-4 animate-fade-in">
+      <div className="glass-panel w-full max-w-md p-8 rounded-2xl border border-white/10 relative overflow-hidden">
+        {/* Decorative background glow */}
+        <div className="absolute -top-24 -left-24 w-48 h-48 bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
+        
+        <div className="flex justify-center mb-6 relative z-10">
           <div className="p-4 bg-primary/20 rounded-full">
-            <Lock className="w-10 h-10 text-primary" />
+            <Lock className="w-10 h-10 text-primary" aria-hidden="true" />
           </div>
         </div>
         
-        <h1 className="text-2xl font-bold text-center mb-2">Zero-Trust Password Manager</h1>
-        <p className="text-center text-muted-foreground mb-8">
-          100% Offline. Your keys, your data.
+        <h1 className="text-3xl font-extrabold text-center mb-2 tracking-tight text-glow">PasswordSaver</h1>
+        <p className="text-center text-muted-foreground mb-8 text-sm font-medium tracking-wide uppercase">
+          Zero-Trust • 100% Offline
         </p>
 
-        <div className="flex gap-2 mb-6">
+        <div className="flex gap-3 mb-8 relative z-10">
           <button
             type="button"
-            className={`flex-1 py-2 rounded-lg font-medium transition-colors ${mode === 'open' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'}`}
+            className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${mode === 'open' ? 'bg-primary text-primary-foreground shadow-[0_0_15px_rgba(120,80,255,0.4)]' : 'bg-secondary/50 text-secondary-foreground hover:bg-secondary'}`}
             onClick={() => { setMode('open'); setError(null); }}
           >
             Open Vault
           </button>
           <button
             type="button"
-            className={`flex-1 py-2 rounded-lg font-medium transition-colors ${mode === 'create' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'}`}
+            className={`flex-1 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${mode === 'create' ? 'bg-primary text-primary-foreground shadow-[0_0_15px_rgba(120,80,255,0.4)]' : 'bg-secondary/50 text-secondary-foreground hover:bg-secondary'}`}
             onClick={() => { setMode('create'); setError(null); }}
           >
             Create New
@@ -97,12 +100,12 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onUnlock }) => {
                 >
                   {file ? (
                     <div className="flex items-center text-primary">
-                      <FileKey2 className="w-5 h-5 mr-2" />
+                      <FileKey2 className="w-5 h-5 mr-2" aria-hidden="true" />
                       <span className="truncate max-w-[200px]">{file.name}</span>
                     </div>
                   ) : (
                     <div className="flex items-center text-muted-foreground">
-                      <Upload className="w-5 h-5 mr-2" />
+                      <Upload className="w-5 h-5 mr-2" aria-hidden="true" />
                       <span>Select .vault file</span>
                     </div>
                   )}
@@ -112,17 +115,20 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onUnlock }) => {
           )}
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Master Password</label>
+            <label htmlFor="master-password" className="text-sm font-medium">Master Password</label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <KeyRound className="h-5 w-5 text-muted-foreground" />
+                <KeyRound className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
               </div>
               <input
+                id="master-password"
                 type="password"
+                autoComplete="current-password"
+                spellCheck={false}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter master password"
-                className="w-full pl-10 pr-4 py-2 bg-background border border-input rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all"
+                className="w-full pl-10 pr-4 py-2 bg-background border border-input rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:border-primary transition-all"
               />
             </div>
           </div>
@@ -135,9 +141,9 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onUnlock }) => {
 
           <button
             type="submit"
-            className="w-full py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center justify-center"
+            className="w-full py-3.5 mt-2 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-xl font-bold hover:opacity-90 transition-all duration-300 active:scale-[0.98] shadow-[0_0_20px_rgba(120,80,255,0.3)] hover:shadow-[0_0_25px_rgba(120,80,255,0.5)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background flex items-center justify-center relative z-10"
           >
-            {mode === 'open' ? 'Unlock Vault' : 'Create Vault'}
+            {mode === 'open' ? 'Unlock Vault' : 'Create Secure Vault'}
           </button>
         </form>
       </div>

@@ -53,23 +53,27 @@ export const Dashboard: React.FC<DashboardProps> = ({ vaultData, onUpdateVault, 
   };
 
   return (
-    <div className="min-h-screen flex flex-col max-w-5xl mx-auto px-4 py-8">
+    <div className="min-h-screen flex flex-col max-w-5xl mx-auto px-4 py-8 animate-fade-in">
       {/* Header */}
-      <header className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-10 p-6 glass rounded-2xl">
-        <div className="flex items-center gap-3">
-          <div className="p-3 bg-primary/20 rounded-xl">
-            <ShieldCheck className="w-8 h-8 text-primary" />
+      <header className="flex flex-col sm:flex-row justify-between items-center gap-4 mb-10 p-6 glass-panel rounded-2xl relative overflow-hidden">
+        {/* Decorative background glow */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none transform translate-x-1/2 -translate-y-1/2"></div>
+        
+        <div className="flex items-center gap-4 relative z-10">
+          <div className="p-3 bg-gradient-to-br from-primary/30 to-accent/10 rounded-xl border border-white/10 shadow-[0_0_15px_rgba(120,80,255,0.2)]">
+            <ShieldCheck className="w-8 h-8 text-primary" aria-hidden="true" />
           </div>
           <div>
-            <h1 className="text-xl font-bold">My Vault</h1>
+            <h1 className="text-2xl font-extrabold tracking-tight text-glow">My Secure Vault</h1>
             <p className="text-sm text-muted-foreground">{vaultData.credentials.length} items</p>
           </div>
         </div>
         <button
+          type="button"
           onClick={onLock}
-          className="flex items-center gap-2 px-6 py-3 bg-destructive text-destructive-foreground rounded-lg font-medium hover:bg-destructive/90 transition-all shadow-lg hover:shadow-destructive/25"
+          className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-destructive to-red-600 text-destructive-foreground rounded-xl font-bold hover:opacity-90 transition-all duration-300 shadow-[0_0_15px_rgba(220,38,38,0.3)] hover:shadow-[0_0_20px_rgba(220,38,38,0.5)] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-destructive focus-visible:ring-offset-2 focus-visible:ring-offset-background relative z-10"
         >
-          <Lock className="w-5 h-5" />
+          <Lock className="w-5 h-5" aria-hidden="true" />
           Save & Lock Vault
         </button>
       </header>
@@ -78,30 +82,35 @@ export const Dashboard: React.FC<DashboardProps> = ({ vaultData, onUpdateVault, 
       <div className="flex flex-col sm:flex-row gap-4 mb-8">
         <div className="relative flex-1">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-muted-foreground" />
+            <Search className="h-5 w-5 text-muted-foreground" aria-hidden="true" />
           </div>
           <input
+            id="search-input"
             type="text"
+            aria-label="Search credentials"
+            autoComplete="off"
+            spellCheck={false}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search credentials..."
-            className="w-full pl-11 pr-4 py-3 bg-background border border-input rounded-xl focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-all shadow-sm"
+            className="w-full pl-11 pr-4 py-3.5 bg-card/40 backdrop-blur-md border border-white/10 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:border-transparent transition-all shadow-[0_4px_20px_rgba(0,0,0,0.1)] hover:bg-card/60 text-foreground placeholder:text-muted-foreground"
           />
         </div>
         <button
+          type="button"
           onClick={openAddModal}
-          className="flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-xl font-medium hover:bg-primary/90 transition-all shadow-lg hover:shadow-primary/25 whitespace-nowrap"
+          className="flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-primary to-accent text-primary-foreground rounded-xl font-bold hover:opacity-90 transition-all duration-300 shadow-[0_0_20px_rgba(120,80,255,0.3)] hover:shadow-[0_0_25px_rgba(120,80,255,0.5)] whitespace-nowrap active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
-          <Plus className="w-5 h-5" />
+          <Plus className="w-5 h-5" aria-hidden="true" />
           Add Item
         </button>
       </div>
 
       {/* Grid */}
       {filteredCredentials.length === 0 ? (
-        <div className="flex-1 flex flex-col items-center justify-center p-12 text-center glass rounded-3xl border-dashed">
-          <ShieldCheck className="w-16 h-16 text-muted-foreground mb-4 opacity-50" />
-          <h3 className="text-xl font-semibold mb-2">No credentials found</h3>
+        <div className="flex-1 flex flex-col items-center justify-center p-12 text-center glass-panel rounded-3xl border border-white/5 border-dashed">
+          <ShieldCheck className="w-16 h-16 text-muted-foreground mb-4 opacity-30 drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]" aria-hidden="true" />
+          <h3 className="text-2xl font-bold mb-2 tracking-tight">No credentials found</h3>
           <p className="text-muted-foreground max-w-sm">
             {searchQuery ? "No items match your search query." : "Your vault is empty. Click 'Add Item' to securely store your first credential."}
           </p>
